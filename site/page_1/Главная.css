@@ -16,7 +16,6 @@
 
 .u-section-1 .u-list-1 {
   grid-template-rows: auto auto;
-  height: auto;
   margin: 37px auto 33px 0;
 }
 
@@ -146,6 +145,7 @@
   }
 
   .u-section-1 .u-list-1 {
+    height: auto;
     margin-right: initial;
     margin-left: initial;
   }
