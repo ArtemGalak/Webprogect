@@ -35,8 +35,13 @@ def before_request():
     dbase = HelpBase(db)
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/')
+@app.route('/Главная.html')
+def main():
+    return render_template('index.html', title='Главная')
+
+
+@app.route('/Авторизация.html', methods=['GET', 'POST'])
 def reqister():
     if request.method == "POST":
         if len(request.form['name']) > 3 and '@' in request.form['email'] \
@@ -47,6 +52,21 @@ def reqister():
                 flash("Вы успешно зарегестрировались!", "seccess")
                 return redirect(url_for('Главная.html'))
     return render_template('Авторизация.html', title='Регистрация')
+
+
+@app.route('/О-нас.html')
+def about_us():
+    return render_template('О-нас.html', title='О-нас')
+
+
+@app.route('/Контакты.html')
+def contact():
+    return render_template('Контакты.html', title='Контакты')
+
+
+@app.route('/Скачать-прайс.html')
+def price():
+    return render_template('Скачать-прайс.html', title='Скачать-прайс')
 
 
 if __name__ == '__main__':
