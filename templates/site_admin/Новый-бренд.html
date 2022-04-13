@@ -75,9 +75,19 @@
                     <div class="u-container-layout u-container-layout-2">
                       <div class="u-form u-form-1">
                         <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form-4">
+                            {{ form.hidden_tag() }}
                           <div class="u-form-group u-form-name u-label-left">
                             <label for="name-e2a4" class="u-label">Бренд</label>
                             <input type="text" placeholder="Введите бренд" id="name-e2a4" name="Бренд" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                            <p>
+                                {{ form.brand.label }}<br>
+                                {{ form.work_size(class="form-control") }}<br>
+                                {% for error in form.work_size.errors %}
+                                    <p content="alert alert-danger" role="alert">
+                                    {{ error }}
+                                    </p>
+                                {% endfor %}
+                            </p>
                           </div>
                           <div class="u-form-email u-form-group u-label-left">
                             <label for="email-e2a4" class="u-label">Название</label>
