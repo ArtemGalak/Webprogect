@@ -1,8 +1,4 @@
 import sqlite3
-import time
-import math
-import re
-from flask import url_for
 
 
 class HelpBase:
@@ -25,7 +21,7 @@ class HelpBase:
             self.__cur.execute(f"SELECT COUNT() AS 'count' FROM Members WHERE email LIKE '{email}'")
             res = self.__cur.fetchone()
             if res['count'] > 0:
-                print('Пользователь с таким email не существует')
+                print('Пользователь с таким email уже существует')
                 return False
 
             self.__cur.execute("INSERT INTO Members VALUES(NULL, ?, ?, ?)", (name, email, hpsw))
@@ -35,3 +31,30 @@ class HelpBase:
             return False
 
         return True
+
+    def getUser(self, user_id):
+        try:
+            self.__cur.execute(f"SELECT * FROM Members WHERE id = {user_id} LIMIT 1")
+            res = self.__cur.fetchone
+            if not res:
+                print('Пользователь не найден')
+                return False
+
+            return res
+        except sqlite3.Error as e:
+            print('Ошибка получения данных из БД' + str(e))
+        return False
+
+    def getUserByEmail(self, email):
+        try:
+            self.__cur.execute(f"SELECT * FROM Members WHERE email = '{email} LIMIT 1")
+            res = self.__cur.fetchone()
+            if not res:
+                print('Пользователь не найден')
+                return False
+
+            return res
+        except sqlite3.Error as e:
+            print('Ошибка в получение данных из БД' + str(e))
+
+        return False
