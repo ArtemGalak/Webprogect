@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request, g, flash, abort, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from HelpBase import HelpBase
+from flask_login import LoginManager, login_user
 
 DATABASE = 'Base.db'
 SECRET_KEY = 'dfbfdbd;.fbdf><dfbdf&3435!@3l'
@@ -42,6 +43,21 @@ def main():
 
 
 @app.route('/Авторизация.html', methods=['GET', 'POST'])
+def autent():
+    def login():
+        if request.method == "POST":
+            user = dbase.getUserByEmail(request.form['email'])
+            if user and check_password_hash(user['psw'], request.form['psw']):
+                userlogin = UserLogin().create(user)
+                login_user(userlogin)
+                return redirect(url_for('price'))
+
+            flash('Неверный логин или пароль', 'error')
+
+    return render_template('page_1/Авторизация.html', title='Авторизация')
+
+
+@app.route('/Регистрация.html', methods=['GET', 'POST'])
 def reqister():
     if request.method == "POST":
         if len(request.form['name']) > 3 and '@' in request.form['email'] \
@@ -49,9 +65,9 @@ def reqister():
             hash = generate_password_hash((request.form['text']))
             res = dbase.addUser(request.form['name'], request.form['email'], hash)
             if res:
-                flash("Вы успешно зарегестрировались!", "seccess")
-                return redirect(url_for('Главная.html'))
-    return render_template('page_1/Авторизация.html', title='Регистрация')
+                #flash("Вы успешно зарегестрировались!", "seccess")
+                return redirect(url_for('price'))
+    return render_template('page_1/Регистрация.html', title='Регистрация')
 
 
 @app.route('/О-нас.html')
@@ -71,3 +87,4 @@ def price():
 
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
+
