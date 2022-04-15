@@ -7,18 +7,10 @@
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Новый бренд</title>
-<link rel="stylesheet" href="Новый-бренд.css" media="screen">
-    <script class="u-script" type="text/javascript" src="static/js/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="static/js/nicepage.js" defer=""></script>
+    <link rel="stylesheet" href="static/css/site_admin/nicepage.css" media="screen">
+<link rel="stylesheet" href="static/css/site_admin/Новый-бренд.css" media="screen">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    
-    
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"logo": "static/img/png-clipart-tool-euclidean-icon-hammer-happy-birthday-vector-images-data.png"
-}</script>
+
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Новый бренд">
     <meta property="og:type" content="website">
@@ -77,38 +69,40 @@
                         <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form-4">
                             {{ form.hidden_tag() }}
                           <div class="u-form-group u-form-name u-label-left">
-                            <label for="name-e2a4" class="u-label">Бренд</label>
-                            <input type="text" placeholder="Введите бренд" id="name-e2a4" name="Бренд" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
-                            <p>
-                                {{ form.brand.label }}<br>
-                                {{ form.work_size(class="form-control") }}<br>
-                                {% for error in form.work_size.errors %}
+                            <label for="name-e2a4" class="u-label">{{ form.brend.label }}</label>
+                              {{ form.brend(placeholder="Введите бренд", id="name-e2a4", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                              {% for error in form.brend.errors %}
                                     <p content="alert alert-danger" role="alert">
                                     {{ error }}
-                                    </p>
-                                {% endfor %}
-                            </p>
+                              {% endfor %}
                           </div>
                           <div class="u-form-email u-form-group u-label-left">
-                            <label for="email-e2a4" class="u-label">Название</label>
-                            <input type="email" placeholder="Название товара" id="email-e2a4" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                            <label for="name-e2a4" class="u-label">{{ form.title.label }}</label>
+                              {{ form.title(placeholder="Введите название", id="name-e2a4", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                              {% for error in form.title.errors %}
+                                    <p content="alert alert-danger" role="alert">
+                                    {{ error }}
+                              {% endfor %}
                           </div>
                           <div class="u-form-group u-label-left u-form-group-3">
-                            <label for="text-4b92" class="u-label">Количество</label>
-                            <input type="text" placeholder="Введи количество" id="text-4b92" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                            <label for="text-4b92" class="u-label">{{ form.amount.label }}</label>
+                              {{ form.amount(placeholder="Введи количество", id="text-4b92", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                              {% for error in form.amount.errors %}
+                                    <p content="alert alert-danger" role="alert">
+                                    {{ error }}
+                              {% endfor %}
                           </div>
                           <div class="u-form-group u-label-left u-form-group-4">
-                            <label for="text-288c" class="u-label">Цена</label>
-                            <input type="text" placeholder="Введи цену" id="text-288c" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                            <label for="text-288c" class="u-label">{{ form.price.label }}</label>
+                              {{ form.price(placeholder="Введи цену", id="text-288c", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                              {% for error in form.price.errors %}
+                                    <p content="alert alert-danger" role="alert">
+                                    {{ error }}
+                              {% endfor %}
                           </div>
                           <div class="u-align-center u-form-group u-form-submit">
-                            <a href="#" class="u-btn u-btn-submit u-button-style u-palette-2-base u-btn-1">Подтвердить<br>
-                            </a>
-                            <input type="submit" value="submit" class="u-form-control-hidden">
+                              <p>{{ form.submit(type="submit", class="u-btn u-btn-submit u-button-style u-palette-2-base u-btn-1") }}</p>
                           </div>
-                          <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-                          <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
-                          <input type="hidden" value="" name="recaptchaResponse">
                         </form>
                       </div>
                     </div>

@@ -9,17 +9,10 @@
     <title>Авторизация</title>
     <link rel="stylesheet" href="static/css/site_admin/nicepage.css" media="screen">
 <link rel="stylesheet" href="static/css/site_admin/Авторизация.css" media="screen">
-    <script class="u-script" type="text/javascript" src="static/js/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="static/js/nicepage.js" defer=""></script>
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    
-    
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"logo": "static/img/png-clipart-tool-euclidean-icon-hammer-happy-birthday-vector-images-data.png"
-}</script>
+
+
+
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Авторизация">
     <meta property="og:type" content="website">
@@ -76,22 +69,27 @@
                     <div class="u-container-layout u-container-layout-2">
                       <div class="u-form u-form-1">
                         <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form-4">
+                           {{ form.hidden_tag() }}
                           <div class="u-form-group u-form-name u-label-left u-form-group-1">
-                            <label for="name-d2e5" class="u-label">Логин</label>
-                            <input type="text" placeholder="Введите ваш логин" id="name-d2e5" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                            <label for="name-d2e5" class="u-label">{{ form.email.label }}</label>
+                              {{ form.email(placeholder="Введите ваш email", id="name-d2e5", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                              {% for error in form.email.errors %}
+                                    <p content="alert alert-danger" role="alert">
+                                    {{ error }}
+                              {% endfor %}
                           </div>
                           <div class="u-form-group u-form-name u-label-left u-form-group-2">
-                            <label for="name-72af" class="u-label">Пароль</label>
-                            <input type="text" placeholder="Введите ваш пароль" id="name-72af" name="name-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                            <label for="name-72af" class="u-label">{{ form.password.label }}</label>
+                            {{ form.password(placeholder="Введите ваш пароль", id="name-72af", class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white") }}<br>
+                            {% for error in form.password.errors %}
+                                  <p content="alert alert-danger" role="alert">
+                                  {{ error }}
+                            {% endfor %}
                           </div>
                           <div class="u-align-center u-form-group u-form-submit">
-                            <a href="#" class="u-btn u-btn-submit u-button-style u-palette-2-base u-btn-1">ВОЙТИ<br>
-                            </a>
-                            <input type="submit" value="submit" class="u-form-control-hidden">
+                              <p>{{ form.submit(type="submit", class="u-btn u-btn-submit u-button-style u-palette-2-base u-btn-1") }}</p>
                           </div>
-                          <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-                          <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
-                          <input type="hidden" value="" name="recaptchaResponse">
+                          {{message}}
                         </form>
                       </div>
                     </div>
