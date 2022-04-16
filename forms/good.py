@@ -5,8 +5,8 @@ from wtforms.validators import DataRequired
 
 
 class GoodForm(FlaskForm):
-    brand = StringField('Brand', validators=[DataRequired()])
-    title = StringField('Good_title', validators=[DataRequired()])
-    amount = IntegerField('Amount', validators=[DataRequired()])
-    price = IntegerField('Price', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    brend = StringField('Бренд', validators=[DataRequired()])
+    title = StringField('Название товара', validators=[DataRequired()])
+    amount = IntegerField('Количество товара', validators=[DataRequired()])
+    price = IntegerField('Цена', validators=[DataRequired()])
+    submit = SubmitField('Подтвердить')

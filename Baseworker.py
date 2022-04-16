@@ -1,6 +1,7 @@
+import csv
 import os
 import sqlite3
-import csv
+
 from flask import Flask, render_template, request, g, flash, redirect
 from flask_login import LoginManager
 from flask_login import login_user, current_user
@@ -71,6 +72,9 @@ def reqister():
                 return redirect('/Главная.html')
     return render_template('/page_1/Авторизация.html', title='Регистрация')
 
+@app.route('/Регистрация.html')
+def register():
+    return render_template('page_1/Регистрация.html', title='О-нас')
 
 @app.route('/О-нас.html')
 def about_us():
@@ -114,7 +118,7 @@ def login():
 @app.route('/add_good_new_brend', methods=['GET', 'POST'])
 def add_good_new_brand():
     if current_user.is_authenticated:
-        if current_user.get_id() == 1:
+        if current_user.get_id() == '1':
             form = GoodForm()
             if form.validate_on_submit():
                 db_sess = db_session.create_session()
@@ -134,7 +138,7 @@ def add_good_new_brand():
 @app.route('/add_good_old_brend', methods=['GET', 'POST'])
 def add_good_old_brand():
     if current_user.is_authenticated:
-        if current_user.get_id() == 1:
+        if current_user.get_id() == '1':
             form = GoodForm()
             db_sess = db_session.create_session()
             brends = db_sess.query(Goods.brend).distinct()
@@ -159,6 +163,21 @@ def add_good_old_brand():
             return render_template('site_admin/Добавить-товар.html', form=form, brends=brends)
         return redirect('/')
     return redirect('/login_admin')
+
+
+@app.route('/change_product')
+def change_product():
+    return render_template('site_admin/Изменить-товар.html')
+
+
+@app.route('/order_requests')
+def order_requests():
+    return render_template('site_admin/Заявки-на-заказ.html')
+
+
+@app.route('/call_requests')
+def call_requests():
+    return render_template('site_admin/Заявки-на-звонок.html')
 
 
 if __name__ == '__main__':
