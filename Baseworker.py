@@ -72,9 +72,11 @@ def reqister():
                 return redirect('/Главная.html')
     return render_template('/page_1/Авторизация.html', title='Регистрация')
 
+
 @app.route('/Регистрация.html')
 def register():
     return render_template('page_1/Регистрация.html', title='О-нас')
+
 
 @app.route('/О-нас.html')
 def about_us():
@@ -84,6 +86,12 @@ def about_us():
 @app.route('/Контакты.html')
 def contact():
     return render_template('page_1/Контакты.html', title='Контакты')
+
+
+@app.route('/order')
+def order():
+    form = AdminLoginForm()
+    return render_template('page_1/Заказ.html', form=form)
 
 
 @app.route('/price_list')
@@ -165,9 +173,30 @@ def add_good_old_brand():
     return redirect('/login_admin')
 
 
-@app.route('/change_product')
+@app.route('/change_product', methods=['GET', 'POST'])
 def change_product():
-    return render_template('site_admin/Изменить-товар.html')
+    if current_user.is_authenticated:
+        if current_user.get_id() == '1':
+            form = GoodForm()
+            db_sess = db_session.create_session()
+            brends = db_sess.query(Goods.brend).distinct()
+            goodseses = db_sess.query(Goods.title).all()
+            if form.validate_on_submit():
+                db_sess = db_session.create_session()
+                goods = db_sess.query(Goods).filter(Goods.brend == request.form.get('brend'),
+                                                    Goods.title == request.form.get('title')).first()
+                if goods:
+                    goods.amount = form.amount.data
+                    goods.price = form.price.data
+                    db_sess.add(goods)
+                    db_sess.commit()
+                    return redirect('/change_product')
+                else:
+                    return render_template('site_admin/Изменить-товар.html', form=form, brends=brends,
+                                           goodseses=goodseses, message='Такого товара не существует')
+            return render_template('site_admin/Изменить-товар.html', form=form, brends=brends, goodseses=goodseses)
+        return redirect('/')
+    return redirect('/login_admin')
 
 
 @app.route('/order_requests')
