@@ -113,6 +113,11 @@
                  data-section-properties="{&quot;margin&quot;:&quot;both&quot;,&quot;stretch&quot;:true}" data-id="fc3f"
                  data-style="shopping-cart-1" id="sec-d393">
             <div class="u-clearfix u-sheet u-block-fc3f-2">
+                <form action="#" method="POST"
+                      class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
+                      style="padding: 10px" source="email" name="form-4">
+                    {{ form.hidden_tag() }}
+                    {{ thank_you }}
                 <div class="u-cart u-block-fc3f-6">
                     <div class="u-cart-products-table u-table u-table-responsive u-block-fc3f-7">
                         <div class="hidden u-border-1 u-border-grey-dark-1 u-first-col-div u-block-fc3f-91"></div>
@@ -128,29 +133,31 @@
                             </colgroup>
                             <thead class="u-table-header u-block-fc3f-13">
                             <tr style="height: 53px;">
+                                <th class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-14">Бренд</th>
                                 <th class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-14">Товар</th>
                                 <th class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-15">Цена</th>
                                 <th class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-16">Количество</th>
                                 <th class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-17">Итого</th>
                             </tr>
                             </thead>
-                            <form action="#" method="POST"
-                                  class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
-                                  style="padding: 10px" source="email" name="form-4">
-                                {{ form.hidden_tag() }}
                                 <tbody class="u-table-body u-block-fc3f-18">
-                                <tr style="height: 121px;">
-
+                                {% for elem in goodses %}
+                                    <tr style="height: 121px;">
+                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-19">
+                                         <h2 class="u-cart-product-brand u-product-control u-text u-block-fc3f-22">
+                                            <a class="u-product-brand-link">{{ elem.brend }}</a>
+                                        </h2>
+                                    </td>
                                     <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-19">
                                          <h2 class="u-cart-product-title u-product-control u-text u-block-fc3f-22">
-                                            <a class="u-product-title-link" href="#">Product 1 Title</a>
+                                            <a class="u-product-title-link">{{ elem.title }}</a>
                                         </h2>
                                     </td>
                                     <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-23">
                                         <div class="u-cart-product-price u-product-control u-product-price u-block-fc3f-24">
                                             <div class="u-price-wrapper">
                                                 <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price">$17.00</div>
+                                                <div class="u-price">{{ elem.price }}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -165,7 +172,7 @@
                                                     </svg>
                                                 </a>
                                                 <input class="u-border-grey-30 u-input u-block-fc3f-27" type="text"
-                                                       value="1" pattern="[0-9]+">
+                                                       value="{{zakaz[elem.brend + elem.title]}}" pattern="[0-9]+" name="{{ elem.brend + elem.title }}">
                                                 <a class="plus u-button-style u-hidden u-quantity-button">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                                         <path d="m 4 8 h 8 M 8 4 v 8" fill="none" stroke="currentColor"
@@ -179,118 +186,22 @@
                                         <div class="u-cart-product-subtotal u-product-control u-product-price u-block-fc3f-29">
                                             <div class="u-price-wrapper">
                                                 <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price" style="font-weight: 700;">$17.00</div>
+                                                <div class="u-price" style="font-weight: 700;">{{ zakaz[elem.brend + elem.title] * elem.price }}</div>
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr style="height: 121px;">
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-30">
-                                        <h2 class="u-cart-product-title u-product-control u-text u-block-fc3f-33">
-                                            <a class="u-product-title-link" href="#">Product 2 Title</a>
-                                        </h2>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-34">
-                                        <div class="u-cart-product-price u-product-control u-product-price u-block-fc3f-35">
-                                            <div class="u-price-wrapper">
-                                                <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price">$245.00</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-36">
-                                        <div class="u-cart-product-quantity u-product-control u-product-quantity u-block-fc3f-37">
-                                            <div class="u-hidden u-quantity-label"> Quantity</div>
-                                            <div class="u-border-1 u-border-grey-25 u-quantity-input">
-                                                <a class="disabled minus u-button-style u-hidden u-quantity-button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="m 4 8 h 8" fill="none" stroke="currentColor"
-                                                              stroke-width="1" fill-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                                <input class="u-border-grey-30 u-input u-block-fc3f-38" type="text"
-                                                       value="1" pattern="[0-9]+">
-                                                <a class="plus u-button-style u-hidden u-quantity-button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="m 4 8 h 8 M 8 4 v 8" fill="none" stroke="currentColor"
-                                                              stroke-width="1" fill-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-39">
-                                        <div class="u-cart-product-subtotal u-product-control u-product-price u-block-fc3f-40">
-                                            <div class="u-price-wrapper">
-                                                <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price" style="font-weight: 700;">$245.00</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr style="height: 121px;">
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-41">
-                                        <h2 class="u-cart-product-title u-product-control u-text u-block-fc3f-44">
-                                            <a class="u-product-title-link" href="#">Product 3 Title</a>
-                                        </h2>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-45">
-                                        <div class="u-cart-product-price u-product-control u-product-price u-block-fc3f-46">
-                                            <div class="u-price-wrapper">
-                                                <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price">$19.00</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-47">
-                                        <div class="u-cart-product-quantity u-product-control u-product-quantity u-block-fc3f-48">
-                                            <div class="u-hidden u-quantity-label"> Quantity</div>
-                                            <div class="u-border-1 u-border-grey-25 u-quantity-input">
-                                                <a class="disabled minus u-button-style u-hidden u-quantity-button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="m 4 8 h 8" fill="none" stroke="currentColor"
-                                                              stroke-width="1" fill-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                                <input class="u-border-grey-30 u-input u-block-fc3f-49" type="text"
-                                                       value="1" pattern="[0-9]+">
-                                                <a class="plus u-button-style u-hidden u-quantity-button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="m 4 8 h 8 M 8 4 v 8" fill="none" stroke="currentColor"
-                                                              stroke-width="1" fill-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-50">
-                                        <div class="u-cart-product-subtotal u-product-control u-product-price u-block-fc3f-51">
-                                            <div class="u-price-wrapper">
-                                                <div class="u-hide-price u-old-price"></div>
-                                                <div class="u-price" style="font-weight: 700;">$19.00</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
-                            </form>
-                            <tfoot class="hidden u-table-footer u-block-fc3f-52">
-                            <tr class="hidden u-block-fc3f-53">
-                                <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-54"></td>
-                                <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-55"></td>
-                                <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-56"></td>
-                                <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-57"></td>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                     <div class="u-cart-button-container">
-                        <a href="#" class="u-btn u-button-style u-cart-update u-grey-5 u-block-fc3f-60" value="Update">Обновить</a>
+                        <input type="submit" class="u-btn u-button-style u-cart-update u-grey-5 u-block-fc3f-60" name="Update" value="Обновить корзину">
                     </div>
                     <div class="u-cart-blocks-container">
                         <div class="u-cart-block u-cart-totals-block u-indent-30">
                             <div class="u-cart-block-container u-clearfix">
-                                <h5 class="u-cart-block-header u-text u-block-fc3f-69">Cart Totals</h5>
+                                <h5 class="u-cart-block-header u-text u-block-fc3f-69">Итого</h5>
                                 <div class="u-align-right u-cart-block-content u-text u-block-fc3f-70">
                                     <div class="u-cart-totals-table u-table u-table-responsive u-block-fc3f-71">
                                         <div class="hidden u-align-left u-border-1 u-border-grey-dark-1 u-first-col-div u-block-fc3f-90"></div>
@@ -305,23 +216,23 @@
                                             <tbody class="u-align-right u-table-body u-block-fc3f-80">
                                             <tr style="height: 46px;">
                                                 <td class="u-align-left u-border-1 u-border-grey-dark-1 u-first-column u-table-cell u-block-fc3f-83">
-                                                    Total
+                                                    Итого
                                                 </td>
                                                 <td class="u-border-1 u-border-grey-dark-1 u-table-cell u-block-fc3f-84">
-                                                    $281.00
+                                                    {{control_sum}}
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#"
-                                       class="u-border-none u-btn u-button-style u-cart-checkout-btn u-palette-2-base u-block-fc3f-89" value="ordering">Заказать</a>
+                                    <input type="submit" class="u-btn u-button-style u-cart-update u-grey-5 u-block-fc3f-60" name="Update" value="Заказать">
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
+                    </form>
             </div>
         </section>
 

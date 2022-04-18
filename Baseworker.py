@@ -11,6 +11,7 @@ from HelpBase import HelpBase
 from data import db_session
 from data.admins import Admin
 from data.goods import Goods
+from data.orders import Orders
 from forms.admin import AdminLoginForm
 from forms.good import GoodForm
 
@@ -88,10 +89,57 @@ def contact():
     return render_template('page_1/Контакты.html', title='Контакты')
 
 
-@app.route('/order')
+@app.route('/order', methods=['GET', 'POST'])
 def order():
-    form = AdminLoginForm()
-    return render_template('page_1/Заказ.html', form=form)
+    form = GoodForm()
+    db_sess = db_session.create_session()
+    goodses = db_sess.query(Goods).all()
+    if request.method == 'POST':
+        if request.form.get('Update') == 'Обновить корзину':
+            zakaz = {}
+            control_sum = 0
+            for elem in goodses:
+                zakaz[elem.brend + elem.title] = int(request.form.get(elem.brend + elem.title))
+                control_sum += int(request.form.get(elem.brend + elem.title)) * elem.price
+            return render_template('page_1/Заказ.html', form=form, goodses=goodses, zakaz=zakaz, control_sum=control_sum)
+        elif request.form.get('Update') == 'Заказать':
+            orders_spis = db_sess.query(Orders).all()
+            orders = Orders()
+            orders.href = f"static/csv/{len(orders_spis)}.csv"
+            orders.email = 'email'
+            orders.is_done = False
+            db_sess.add(orders)
+            db_sess.commit()
+            with open(orders.href, mode="w", encoding='cp1251', newline='') as f:
+                db_sess = db_session.create_session()
+                goods = db_sess.query(Goods).all()
+                f.truncate()
+                pricewriter = csv.writer(f, delimiter=';')
+                pricewriter.writerow(['id', 'Бренд', 'Название', 'Количество', 'Цена', 'Итог'])
+                control_sum = 0
+                for good in goodses:
+                    pricewriter.writerow([good.id, good.brend, good.title,
+                                          int(request.form.get(good.brend + good.title)), good.price,
+                                          int(request.form.get(good.brend + good.title)) * good.price])
+                    control_sum += int(request.form.get(good.brend + good.title)) * good.price
+                pricewriter.writerow(['', '', '', '', '', str(control_sum)])
+            f.close()
+            zakaz = {}
+            control_sum = 0
+            for elem in goodses:
+                zakaz[elem.brend + elem.title] = int(request.form.get(elem.brend + elem.title))
+                control_sum += int(request.form.get(elem.brend + elem.title)) * elem.price
+            return render_template('page_1/Заказ.html', form=form, goodses=goodses, zakaz=zakaz,
+                                   control_sum=control_sum,
+                                   thank_you=f'Спасибо за заказ, ваша заявка №{len(orders_spis)}'
+                                             f' уже находится в обработке. На вашу почту придёт письмо')
+        else:
+            return render_template('page_1/Заказ.html', form=form, goodses=goodses)
+    elif request.method == 'GET':
+        zakaz = {}
+        for elem in goodses:
+            zakaz[elem.brend + elem.title] = 0
+        return render_template('page_1/Заказ.html', form=form, goodses=goodses, zakaz=zakaz, control_sum=0)
 
 
 @app.route('/price_list')
