@@ -7,10 +7,8 @@
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Заявки на заказ</title>
-    <link rel="stylesheet" href="static/css/site_admin/nicepage.css" media="screen">
+    <link rel="stylesheet" href="static/css/page_1/nicepage.css" media="screen">
 <link rel="stylesheet" href="static/css/site_admin/Заявки-на-заказ.css" media="screen">
-    <script class="u-script" type="text/javascript" src="static/js/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="static/js/nicepage.js" defer=""></script>
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     
     
@@ -70,13 +68,13 @@
           </div>
           <div class="u-container-style u-list-item u-repeater-item">
             <div class="u-container-layout u-similar-container u-container-layout-2">
-              <h5 class="u-custom-item u-text u-text-2">Номер телефона</h5>
+              <h5 class="u-custom-item u-text u-text-2">email<br>
+              </h5>
             </div>
           </div>
           <div class="u-container-style u-list-item u-repeater-item">
             <div class="u-container-layout u-similar-container u-container-layout-3">
-              <h5 class="u-custom-item u-text u-text-3">Заявка&nbsp;<br>Excel
-              </h5>
+              <h5 class="u-custom-item u-text u-text-3">Заявка&nbsp;Excel</h5>
             </div>
           </div>
           <div class="u-container-style u-list-item u-repeater-item">
@@ -89,6 +87,21 @@
       </div>
       <div class="u-border-3 u-border-grey-dark-1 u-expanded-width u-line u-line-horizontal u-line-1"></div>
       <div class="u-border-3 u-border-grey-dark-1 u-expanded-width u-line u-line-horizontal u-line-2"></div>
+      <form action="#" method="POST">
+          {{ form.hidden_tag() }}
+          {% for elem in order_request %}
+            {% if elem.is_done == 0 %}
+            <input type="submit" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-1" name="Update" value="Выполнить №{{elem.id}}">
+            </a>
+            <a href="{{elem.href}}" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-2" download>скачать</a>
+            </a>
+            <h5 class="u-custom-item u-text u-text-5">{{ elem.email }}<br>
+            </h5>
+            <h5 class="u-custom-item u-text u-text-6">{{ elem.email }}<br>
+            </h5>
+            {% endif %}
+          {% endfor %}
+            </form>
     </section>
     
     

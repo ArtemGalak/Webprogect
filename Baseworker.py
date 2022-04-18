@@ -101,7 +101,8 @@ def order():
             for elem in goodses:
                 zakaz[elem.brend + elem.title] = int(request.form.get(elem.brend + elem.title))
                 control_sum += int(request.form.get(elem.brend + elem.title)) * elem.price
-            return render_template('page_1/Заказ.html', form=form, goodses=goodses, zakaz=zakaz, control_sum=control_sum)
+            return render_template('page_1/Заказ.html', form=form, goodses=goodses, zakaz=zakaz,
+                                   control_sum=control_sum)
         elif request.form.get('Update') == 'Заказать':
             orders_spis = db_sess.query(Orders).all()
             orders = Orders()
@@ -247,9 +248,23 @@ def change_product():
     return redirect('/login_admin')
 
 
-@app.route('/order_requests')
+@app.route('/order_requests', methods=['GET', 'POST'])
 def order_requests():
-    return render_template('site_admin/Заявки-на-заказ.html')
+    if current_user.is_authenticated:
+        if current_user.get_id() == '1':
+            form = AdminLoginForm()
+            db_sess = db_session.create_session()
+            order_request = db_sess.query(Orders)
+            if request.method == 'POST':
+                ord = db_sess.query(Orders).filter(Orders.id == int(request.form.get('Update').split('№')[1])).first()
+                ord.is_done = True
+                db_sess.add(ord)
+                db_sess.commit()
+                return render_template('site_admin/Заявки-на-заказ.html', form=form, order_request=order_request)
+            if request.method == 'GET':
+                return render_template('site_admin/Заявки-на-заказ.html', form=form, order_request=order_request)
+        return redirect('/')
+    return redirect('/login_admin')
 
 
 @app.route('/call_requests')
