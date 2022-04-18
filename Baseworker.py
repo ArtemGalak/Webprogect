@@ -201,7 +201,7 @@ def add_good_old_brand():
             brends = db_sess.query(Goods.brend).distinct()
             if form.validate_on_submit():
                 db_sess = db_session.create_session()
-                goodses = db_sess.query(Goods.title).distinct()
+                goodses = db_sess.query(Goods.title).filter(Goods.brend == request.form.get('brend')).distinct()
                 if (form.title.data,) in goodses:
                     goods = db_sess.query(Goods).filter(Goods.title == form.title.data).first()
                     goods.amount += form.amount.data
