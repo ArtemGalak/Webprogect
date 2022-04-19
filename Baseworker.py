@@ -10,12 +10,11 @@ from werkzeug.security import generate_password_hash
 from HelpBase import HelpBase
 from data import db_session
 from data.admins import Admin
+from data.calls import Calls
 from data.goods import Goods
 from data.orders import Orders
 from forms.admin import AdminLoginForm
 from forms.good import GoodForm
-from data.calls import Calls
-
 
 DATABASE = 'Base.db'
 SECRET_KEY = 'dfbfdbd;.fbdf><dfbdf&3435!@3l'
@@ -94,39 +93,15 @@ def contact():
         calls_spis = db_sess.query(Calls).all()
         calls = Calls()
         calls.name = request.form.get('name')
-            #calls.href = f"static/csv/call{len(calls_spis)}.csv"
         calls.phone = request.form.get('phone')
         calls.message = request.form.get('message')
         calls.is_done = False
         db_sess.add(calls)
         db_sess.commit()
-            #with open(calls.href, mode="w", encoding='cp1251', newline='') as f:
-             #   db_sess = db_session.create_session()
-            #    f.truncate()
-            #    pricewriter = csv.writer(f, delimiter=';')
-            #    pricewriter.writerow(['id', 'Имя', 'Название', 'Количество', 'Цена', 'Итог'])
-            #    control_sum = 0
-            #    for good in goodses:
-            #        pricewriter.writerow([good.id, good.brend, good.title,
-            #                              int(request.form.get(good.brend + good.title)), good.price,
-            #                              int(request.form.get(good.brend + good.title)) * good.price])
-            #        control_sum += int(request.form.get(good.brend + good.title)) * good.price
-            #    pricewriter.writerow(['', '', '', '', '', str(control_sum)])
-            #f.close()
-            #zakaz = {}
-            #control_sum = 0
-            #for elem in goodses:
-            #    zakaz[elem.brend + elem.title] = int(request.form.get(elem.brend + elem.title))
-            #    control_sum += int(request.form.get(elem.brend + elem.title)) * elem.price
         return render_template('page_1/Контакты.html', form=form,
-                                thank_you=f'Спасиб, ваша заявка №{len(calls_spis)}'
-                                        f' уже находится в обработке. Мы вам перезвоним')
-        #else:
-        #    return render_template('page_1/Заказ.html', form=form, goodses=goodses)
+                               thank_you=f'Спасибо, ваша заявка №{len(calls_spis)}'
+                                         f' уже находится в обработке. Мы вам перезвоним')
     elif request.method == 'GET':
-        #zakaz = {}
-        #for elem in goodses:
-         #   zakaz[elem.brend + elem.title] = 0
         return render_template('page_1/Контакты.html', form=form)
 
 
@@ -308,9 +283,23 @@ def order_requests():
     return redirect('/login_admin')
 
 
-@app.route('/call_requests')
+@app.route('/call_requests', methods=['GET', 'POST'])
 def call_requests():
-    return render_template('site_admin/Заявки-на-звонок.html')
+    if current_user.is_authenticated:
+        if current_user.get_id() == '1':
+            form = AdminLoginForm()
+            db_sess = db_session.create_session()
+            call_request = db_sess.query(Calls)
+            if request.method == 'POST':
+                ord = db_sess.query(Calls).filter(Calls.id == int(request.form.get('Update').split('№')[1])).first()
+                ord.is_done = True
+                db_sess.add(ord)
+                db_sess.commit()
+                return render_template('site_admin/Заявки-на-звонок.html', form=form, call_request=call_request)
+            if request.method == 'GET':
+                return render_template('site_admin/Заявки-на-звонок.html', form=form, call_request=call_request)
+        return redirect('/')
+    return redirect('/login_admin')
 
 
 if __name__ == '__main__':

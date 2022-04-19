@@ -60,7 +60,7 @@
           </div>
         </nav>
       </div></header>
-    <section class="u-clearfix u-section-1" id="sec-a79f">
+      <section class="u-clearfix u-section-1" id="sec-a79f">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
@@ -94,17 +94,18 @@
             {% if elem.is_done == 0 %}
             <input type="submit" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-1" name="Update" value="Выполнить №{{elem.id}}">
             </a>
-            <a href="{{elem.href}}" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-2" download>скачать</a>
-            </a>
-            <h5 class="u-custom-item u-text u-text-5">{{ elem.email }}<br>
+            <h5 class="u-text u-text-default u-text-6">{{ elem.phone }}<br>
             </h5>
-            <h5 class="u-custom-item u-text u-text-6">{{ elem.email }}<br>
+            <h5 class="u-text u-text-default u-text-5">{{ elem.name }}
+            </h5>
+            <h5 class="u-text u-text-7">{{ elem.message }}<br>
             </h5>
             {% endif %}
           {% endfor %}
         </form>
       </div>
     </section>
+
     
     
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-2a37"><div class="u-align-left u-clearfix u-sheet u-sheet-1">
