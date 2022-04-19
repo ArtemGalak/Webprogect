@@ -14,6 +14,8 @@ from data.goods import Goods
 from data.orders import Orders
 from forms.admin import AdminLoginForm
 from forms.good import GoodForm
+from data.calls import Calls
+
 
 DATABASE = 'Base.db'
 SECRET_KEY = 'dfbfdbd;.fbdf><dfbdf&3435!@3l'
@@ -84,9 +86,48 @@ def about_us():
     return render_template('page_1/О-нас.html', title='О-нас')
 
 
-@app.route('/Контакты.html')
+@app.route('/Контакты.html', methods=['GET', 'POST'])
 def contact():
-    return render_template('page_1/Контакты.html', title='Контакты')
+    form = GoodForm()
+    db_sess = db_session.create_session()
+    if request.method == 'POST':
+        calls_spis = db_sess.query(Calls).all()
+        calls = Calls()
+        calls.name = request.form.get('name')
+            #calls.href = f"static/csv/call{len(calls_spis)}.csv"
+        calls.phone = request.form.get('phone')
+        calls.message = request.form.get('message')
+        calls.is_done = False
+        db_sess.add(calls)
+        db_sess.commit()
+            #with open(calls.href, mode="w", encoding='cp1251', newline='') as f:
+             #   db_sess = db_session.create_session()
+            #    f.truncate()
+            #    pricewriter = csv.writer(f, delimiter=';')
+            #    pricewriter.writerow(['id', 'Имя', 'Название', 'Количество', 'Цена', 'Итог'])
+            #    control_sum = 0
+            #    for good in goodses:
+            #        pricewriter.writerow([good.id, good.brend, good.title,
+            #                              int(request.form.get(good.brend + good.title)), good.price,
+            #                              int(request.form.get(good.brend + good.title)) * good.price])
+            #        control_sum += int(request.form.get(good.brend + good.title)) * good.price
+            #    pricewriter.writerow(['', '', '', '', '', str(control_sum)])
+            #f.close()
+            #zakaz = {}
+            #control_sum = 0
+            #for elem in goodses:
+            #    zakaz[elem.brend + elem.title] = int(request.form.get(elem.brend + elem.title))
+            #    control_sum += int(request.form.get(elem.brend + elem.title)) * elem.price
+        return render_template('page_1/Контакты.html', form=form,
+                                thank_you=f'Спасиб, ваша заявка №{len(calls_spis)}'
+                                        f' уже находится в обработке. Мы вам перезвоним')
+        #else:
+        #    return render_template('page_1/Заказ.html', form=form, goodses=goodses)
+    elif request.method == 'GET':
+        #zakaz = {}
+        #for elem in goodses:
+         #   zakaz[elem.brend + elem.title] = 0
+        return render_template('page_1/Контакты.html', form=form)
 
 
 @app.route('/order', methods=['GET', 'POST'])
