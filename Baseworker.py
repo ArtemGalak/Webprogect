@@ -47,7 +47,11 @@ def login():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(Users).filter(Users.email == form.email.data).first()
-        if user and user.check_password(form.password.data):
+        admin = db_sess.query(Admin).filter(Admin.email == form.email.data).first()
+        if admin and admin.check_password(form.password.data):
+            login_user(admin)
+            return redirect("/add_good_new_brend")
+        elif user and user.check_password(form.password.data):
             login_user(user)
             return redirect("/")
         return render_template('page_1/Авторизация.html', form=form,
@@ -319,3 +323,4 @@ if __name__ == '__main__':
     db_session.global_init(f"db/goods.db")
     serve(app, host='0.0.0.0', port=8080)
     # app.run(port=5000, host='0.0.0.0')
+    
