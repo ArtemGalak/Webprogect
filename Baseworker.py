@@ -7,7 +7,6 @@ from flask_login import LoginManager
 from flask_login import login_user, current_user
 from waitress import serve
 
-from HelpBase import HelpBase
 from data import db_session
 from data.admins import Admin
 from data.calls import Calls
@@ -19,30 +18,13 @@ from forms.good import GoodForm
 from forms.user import UserLoginForm
 from forms.user_reg import UserRegForm
 
-DATABASE = 'Base.db'
 SECRET_KEY = 'dfbfdbd;.fbdf><dfbdf&3435!@3l'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Base.db')))
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-def connect_db():
-    conn = sqlite3.connect(app.config['DATABASE'])
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-def get_db():
-    if not hasattr(g, 'link_db'):
-        g.link_db = connect_db()
-    return g.link_db
-
-
-dbase = None
 
 
 @login_manager.user_loader
@@ -51,13 +33,6 @@ def load_user(user_id):
     if int(user_id) > 0:
         return db_sess.query(Users).get(user_id)
     return db_sess.query(Admin).get(user_id)
-
-
-@app.before_request
-def before_request():
-    global dbase
-    db = get_db()
-    dbase = HelpBase(db)
 
 
 @app.route('/')
@@ -304,7 +279,12 @@ def order_requests():
                 ord.is_done = True
                 db_sess.add(ord)
                 db_sess.commit()
-                return render_template('site_admin/Заявки-на-заказ.html', form=form, order_request=order_request)
+                names = db_sess.query(Users).all()
+                name = {}
+                for elem in names:
+                    name[elem.email] = elem.name
+                return render_template('site_admin/Заявки-на-заказ.html', form=form,
+                                       order_request=order_request, name=name)
             if request.method == 'GET':
                 names = db_sess.query(Users).all()
                 name = {}
