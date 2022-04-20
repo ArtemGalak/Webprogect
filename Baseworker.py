@@ -5,6 +5,7 @@ import sqlite3
 from flask import Flask, render_template, request, g, redirect
 from flask_login import LoginManager
 from flask_login import login_user, current_user
+from waitress import serve
 
 from HelpBase import HelpBase
 from data import db_session
@@ -336,4 +337,5 @@ def call_requests():
 
 if __name__ == '__main__':
     db_session.global_init(f"db/goods.db")
-    app.run(port=8080, host='127.0.0.1')
+    serve(app, host='0.0.0.0', port=8080)
+    # app.run(port=5000, host='0.0.0.0')
