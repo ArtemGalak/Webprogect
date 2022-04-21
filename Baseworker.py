@@ -321,6 +321,6 @@ def call_requests():
 
 if __name__ == '__main__':
     db_session.global_init(f"db/goods.db")
-    serve(app, host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=5000)
     # app.run(port=5000, host='0.0.0.0')
     
